@@ -1,0 +1,88 @@
+<form [formGroup]="formGroup">
+
+  <div class="maindiv">
+    <h1 style="text-align: center;color: white">SIGN UP</h1>
+
+    <input
+      class="input_text"
+      type="text"
+      placeholder="Enter your First Name"
+      formControlName="first_name">
+
+
+    <input
+      class="input_text"
+      type="text"
+      placeholder="Enter your Last Name"
+      formControlName="last_name">
+
+
+    <input
+      class="input_text"
+      type="email"
+      placeholder="Enter your Email"
+      formControlName="email">
+    <p *ngIf="email.invalid && (email.dirty || email.touched)"
+       style="color: red;text-align: center"><b>EMAIL IS INVALID(xyz@**.com)</b>
+    </p>
+
+
+
+    <input
+      class="input_text"
+      type="password"
+      placeholder="Enter your Password"
+      formControlName="password">
+    <p *ngIf="password.hasError('required')&& (password.dirty || password.touched)" style="color: RED;text-align: center"><b>Password is Required</b></p>
+    <p *ngIf="password.hasError('pattern')"
+       style="color: Red;text-align: center">
+      <b>Password is Invalid
+        Password must contain Atleast 8 characters, one Lowercase and one upper case</b>
+    </p>
+
+
+    <input
+      class="input_text"
+      type="password"
+      placeholder="Confirm your Password"
+      formControlName="confirm_password">
+    <p *ngIf="confirm_password.dirty &&
+                confirm_password.hasError('NoPassswordMatch')">Passwords Not match</p>
+
+    <div class="sideinput">
+      <label style="color: white" > Title Select </label>
+      <div class="inputdiv">
+        <p  class="checkbox">
+          <input style="color:red" type="radio" [value]="false" formControlName="gender"> <b style="color: black"> Mr. </b>
+          <input type="radio" [value]="true" formControlName="gender"> <b style="color: black"> Mrs. </b>
+        </p>
+      </div>
+    </div>
+    <br>
+    <img
+      class="input_text"
+      alt=" " *ngIf="userPic.value">
+    <input type="file" (change)="readUrl($event)"
+           style="margin-top: 20px">
+
+    <div class="mybuttons">
+
+      <button class="btn btn-success hover-action" (click)="submit(formGroup)"
+              [disabled]="formGroup.invalid" >SIGNUP
+      </button>
+      <br>
+
+      <div class="horizontalLine">
+      </div>
+      <p style="color: white;text-align: center"> Already Have an account ? <a style="color: white" routerLink="/login"> Login </a></p>
+      <br>
+<!--      <button  class="btn btn-success hover-action"-->
+<!--              routerLink="/login" >LOGIN-->
+<!--      </button>-->
+
+
+    </div>
+  </div>
+</form>
+
+

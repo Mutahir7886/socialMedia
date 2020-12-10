@@ -1,0 +1,410 @@
+<script src="homepage.component.spec.ts"></script>
+<div id="main">
+  <button id="signout-button"
+          mat-button
+          (click)="signout()" xmlns="http://www.w3.org/1999/html">
+    Signout
+  </button>
+
+  <div id="main123">
+    <div id="first-div">
+      XYZ
+    </div>
+
+    <div id="second-div">
+
+      <div id="post">
+        <div id="post-profile-picture">
+          <img
+            [src]="profilePic"
+            alt="profile_pic">
+        </div>
+        <form id="post-form" [formGroup]="formGroup">
+          <input
+            class="input_text"
+            placeholder="What is in your mind ?"
+            formControlName="description">
+          <img id="post-image"
+               [src]="UserImage.value"
+               alt="" *ngIf="UserImage.value">
+          <div id="post-action">
+            <input
+              type="file" (change)="readUrl($event)"
+              accept="image/*" #file
+              hidden="true">
+            <mat-icon class="hover-action" (click)="file.click()">
+              insert_photo
+            </mat-icon>
+
+            <button
+              mat-button
+              (click)="createPost(formGroup)"
+              [disabled]="formGroup.invalid">
+              CreatePost
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="newsfeed" *ngFor="let item of post_array;let i=index">
+
+        <div class="newsfeed-action">
+          <div class="newsfeed-profile-picture">
+            <img
+              [src]="item.userId.profile_pic"
+              alt="profile_pic">
+          </div>
+          <div class="name-div">
+            <p>{{item.userId.first_name}}</p>
+            <div>{{item.date |date :'fullDate'}}</div>
+          </div>
+          <div>
+            <button *ngIf="checkid == item.userId._id" mat-icon-button
+                    [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button style="outline: none" (click)="deletepost(i,item._id)" mat-menu-item>
+                <span>Delete Post</span>
+              </button>
+              <button style="outline: none"
+                      (click)="openModal(i,postToEdit,item.title,item.description,item.post_pic,item._id)"
+                      mat-menu-item>
+                <span>Edit</span>
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+
+        <h4>{{item.description}}</h4>
+
+        <div class="newsfeed-picture">
+          <img [src]="item.post_pic" *ngIf="item.post_pic" alt="">
+        </div>
+
+        <button mat-button class="commentsbutton" (click)="item.commentsloading = true">comments ({{item.comments.length}})</button>
+
+        <div *ngIf="item.commentsloading" class="commentadd">
+
+          <input
+                 [disabled]="item.commentsaving"
+                 [ngClass]="item.commentsaving?'disabledreaction':''"
+                 class="input_text_comment"
+                 type="text"
+                 [(ngModel)]="item.newComment"
+                 placeholder="Write Comment"
+                 (keypress)="enter($event,i,item.newComment,item._id)">
+
+
+          <i
+            [ngClass]="item.commentsaving?'saving':''"
+            *ngIf="!item.commentsaving"
+             class="fa fa-reply hover-action1 inputcomment"
+             aria-hidden="true"
+             (click)="commentOfPost(i,item.newComment,item._id)"
+             ></i>
+
+          <div class="threedots" [ngClass]="item.commentsaving?'saving':''" >
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+        </div>
+
+        <ng-container *ngIf="item.commentsloading">
+        <div  *ngFor="let everycomment of item.comments;let j =index">
+          <div *ngIf="j <item.loadmorecomments">
+          <div  style="display: flex">
+
+            <div class="comments_section" >
+
+              <button *ngIf="everycomment.userId._id == checkid" style="float: right;outline: none" mat-icon-button
+                      [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+
+              <mat-menu #menu="matMenu">
+                <button style="outline: none"
+                        (click)=openModal1(i,commenttoEdit,everycomment.comment,everycomment._id,item._id)
+                        mat-menu-item>
+                  <span>Edit Comment </span>
+                </button>
+                <button style="outline: none" (click)="deleteComment(i,everycomment._id,item._id)" mat-menu-item>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+
+              <p id="comment_user_name"><b>{{everycomment.userId.first_name}}</b></p>
+              <p id="comment_text"> {{everycomment.comment}}</p>
+
+              <div style="display: flex">
+
+                <div [ngClass]="everycomment.commentreactionloading?'disabledreaction':''" class="reactioncomment" >
+
+                  <mat-icon class="reaction1" (click)="reactioncomment(item._id,everycomment._id,0, i,j)">thumb_up
+                  </mat-icon>
+                  <span class="span_comment_react" >({{everycomment.commentlikecount}})</span>
+
+                  <mat-icon class="reaction3" (click)="reactioncomment(item._id,everycomment._id,3, i,j)">thumb_down
+                  </mat-icon>
+                  <span class="span_comment_react" >({{everycomment.commentdislikecount}})</span>
+
+                  <mat-icon class="reaction2" (click)="reactioncomment(item._id,everycomment._id,1, i,j)">favorite
+                  </mat-icon>
+                  <span class="span_comment_react">({{everycomment.commentlovecount}})</span>
+
+                  <div *ngIf="everycomment.commentreactionloading" class="loader"></div>
+
+                </div>
+
+                <a class="hover-action replyaction "
+                   (click)="everycomment.addNewReply = true"
+                > Reply</a>
+
+                <input class="input_reply" *ngIf="everycomment.addNewReply" type="text"
+                       [(ngModel)]="everycomment.newReply"
+                       placeholder="Write Reply">
+                <!--                <button *ngIf="everycomment.addNewReply" (click)="reply(i,everycomment.newReply,item._id,everycomment._id)">-->
+                <!--                  submit-->
+                <!--                </button>-->
+                <i *ngIf="everycomment.addNewReply"
+                   style="color: black;font-size: 15px;margin-left: 10px;margin-top: 5px"
+                   class="fa fa-paper-plane hover-action1"
+                   aria-hidden="true"
+                   (click)="reply(i,j,everycomment.newReply,item._id,everycomment._id)"></i>
+
+              </div>
+<!--              <div style="display:flex;background-color: white;border-radius: 20px;width: 90px;margin-left: 130px">-->
+<!--                <mat-icon class="reaction1">thumb_up</mat-icon><span style="margin-left:2px;font-size: 10px">({{everycomment.commentlikecount}})</span>-->
+<!--                <mat-icon class="reaction1">thumb_down</mat-icon><span style="margin-left:2px;font-size: 10px">({{everycomment.commentdislikecount}})</span>-->
+<!--                <mat-icon class="reaction1">favorite</mat-icon><span style="margin-left:2px;font-size: 10px">({{everycomment.commentlovecount}})</span>-->
+
+<!--              </div>-->
+            </div>
+
+            <!--               <a  style="color: blue;margin-left: 20px"-->
+            <!--               (click)=openModal1(i,commenttoEdit,everycomment.comment,everycomment._id,item._id)> Edit Comment </a>-->
+            <!--               <a class="hover-action " style="color: blue;margin-left: 20px;"-->
+            <!--               (click)="deleteComment(i,everycomment._id,item._id)"> Delete comment </a>-->
+          </div>
+          <!--          <div style="display: flex">-->
+
+          <!--            <a class="hover-action "-->
+          <!--               (click)="everycomment.addNewReply = true"-->
+          <!--               style="font-size: 10px;cursor: pointer;font-weight: bold;color:darkblue;margin-left: 80px"> Reply</a>-->
+
+          <!--            <input *ngIf="everycomment.addNewReply" type="text" [(ngModel)]="everycomment.newReply"-->
+          <!--                   placeholder="Write Reply">-->
+          <!--            <button *ngIf="everycomment.addNewReply" (click)="reply(i,everycomment.newReply,item._id,everycomment._id)">-->
+          <!--              submit-->
+          <!--            </button>-->
+          <!--          </div>-->
+          <div *ngFor="let everyReply of everycomment.replies;let k =index">
+            <div *ngIf="k <everycomment.loadmorereplies">
+            <div style="display: flex">
+
+              <div class="replySection">
+
+                <button *ngIf="everyReply.userId._id == checkid" style="float: right;outline: none" mat-icon-button
+                        [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button style="outline: none"
+                          (click)=openModal2(i,replyToEdit,everyReply.reply,everyReply._id,everycomment._id,item._id)
+                          mat-menu-item>
+                    <span>Edit Reply </span>
+                  </button>
+                  <button style="outline: none" (click)="deleteReply(i,item._id,everycomment._id,everyReply._id)"
+                          mat-menu-item>
+                    <span>Delete Reply</span>
+                  </button>
+                </mat-menu>
+
+                <p id="reply_user_name" >
+                  <b>{{everyReply.userId.first_name}} </b>
+                </p>
+
+                <p id="reply_text"> {{everyReply.reply}}</p>
+
+
+                <div [ngClass]="everyReply.replyreactionloading?'disabledreaction':''" class="reactionreply" >
+
+                  <mat-icon class="reaction1"
+                            (click)="reactionreply(item._id,everycomment._id,everyReply._id,0, i,j,k)">
+                    thumb_up
+                  </mat-icon>
+                  <span class="span_reply_react">({{everyReply.replylikecount}})</span>
+
+                  <mat-icon class="reaction3"
+                            (click)="reactionreply(item._id,everycomment._id,everyReply._id,3, i,j,k)">
+                    thumb_down
+                  </mat-icon>
+                  <span class="span_reply_react">({{everyReply.replydislikecount}})</span>
+
+                  <mat-icon class="reaction2"
+                            (click)="reactionreply(item._id,everycomment._id,everyReply._id,1, i,j,k)">
+                    favorite
+                  </mat-icon>
+                  <span class="span_reply_react">({{everyReply.replylovecount}})</span>
+
+                  <div *ngIf="everyReply.replyreactionloading" class="loader"></div>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+          </div>
+            <a  *ngIf="everycomment.replies.length>0" (click)="everycomment.loadmorereplies=everycomment.loadmorereplies+ 1" class="loadmorereplies">show more replies</a>
+          </div>
+
+        </div>
+          <a (click)="item.loadmorecomments=item.loadmorecomments+ 2" class="loadmorecomments">show more comments</a>
+        </ng-container>
+        <div [ngClass]="item.reactionloading?'disabledreaction':''" class="reactionpost">
+          <mat-icon [ngClass]="item.userreaction == 0?'userreaction':'NouserReaction'" class=" reaction" (click)="reactionpost(item._id,0, i)">thumb_up</mat-icon>
+          <span class="post_react_span">({{item.likeCount}})</span>
+          <mat-icon [ngClass]="item.userreaction == 3?'userreaction':'NouserReaction'" class=" reaction" (click)="reactionpost(item._id,3, i)">thumb_down</mat-icon>
+          <span class="post_react_span" >({{item.dislikeCount}})</span>
+          <span class="post_react_span" >({{item.dislikeCount}})</span>
+          <mat-icon [ngClass]="item.userreaction == 1?'userreaction':'NouserReaction'" class=" reaction" (click)="reactionpost(item._id,1, i)">favorite</mat-icon>
+          <span class="post_react_span">({{item.Love}})</span>
+          <div *ngIf="item.reactionloading" class="loader"></div>
+          <a (click)="openModal4(i,item,totalreactions)" class="totalreactions"><p class="peoplereacted" >{{item.likeCount+item.dislikeCount+item.Love}} {{(item.likeCount+item.dislikeCount+item.Love)>1?' reactions': 'reaction'}}</p></a>
+        </div>
+      </div>
+
+      <button (click)="loaddata()"> Load More</button>
+
+    </div>
+
+    <div id="third-div">
+      ABC
+    </div>
+  </div>
+
+
+  <ng-template #postToEdit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Post Details Edit</h4>
+      <button type="button" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formGroup">
+        <input placeholder="title" formControlName="title">
+        <br>
+        <input placeholder="description" formControlName="description">
+        <br>
+        <img
+
+          [src]="UserImage.value"
+          alt=" " *ngIf="UserImage.value">
+        <br>
+        <input type="file" (change)="readUrl($event)"
+        >
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="goedit()">Edit</button>
+      <button type="button" class="btn btn-outline-dark" (click)="noedit()">Cancel</button>
+
+    </div>
+  </ng-template>
+
+
+  <ng-template #commenttoEdit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Comment Details Edit</h4>
+      <button type="button" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formGroup1">
+        <input type="text" placeholder="edit comment" formControlName="comment">
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button (click)="editComment()"> Ok</button>
+    </div>
+  </ng-template>
+
+  <ng-template #replyToEdit let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Reply Details Edit</h4>
+      <button type="button" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formGroup2">
+        <input type="text" placeholder="edit reply" formControlName="reply">
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button (click)="editReply()"> Ok</button>
+    </div>
+  </ng-template>
+
+  <ng-template #totalreactions let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">People who reacted</h4>
+      <button type="button" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <mat-tab-group animationDuration="200ms">
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+          <div class="mat_tab_like_section" >
+            <mat-icon  class=" ad" >thumb_up</mat-icon>
+          </div>
+            <span class="checkreactioncountnumber">{{checkreactionlikecount}}</span>
+          </ng-template>
+          <div *ngFor="let item of totalPostReactions">
+            {{item.reactionType == 0 ? item.userId.first_name : ''}}
+          </div>
+        </mat-tab>
+
+        <mat-tab >
+          <ng-template mat-tab-label>
+            <div  class="mat_tab_dislike_section" >
+              <mat-icon class=" ab">thumb_down</mat-icon>
+            </div>
+            <span  class="checkreactioncountnumber">{{checkreactiondislikecount}}</span>
+          </ng-template>
+          <div *ngFor="let item of totalPostReactions">
+            {{item.reactionType == 3 ? item.userId.first_name : ''}}
+          </div>
+        </mat-tab>
+
+        <mat-tab >
+          <ng-template mat-tab-label>
+            <div class="mat_tab_love_section" >
+              <mat-icon class=" ab">favorite</mat-icon>
+            </div>
+            <span  class="checkreactioncountnumber">{{checkreactionlovecount}}</span>
+          </ng-template>
+          <div *ngFor="let item of totalPostReactions">
+            {{item.reactionType == 1 ? item.userId.first_name : ''}}
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+<!--      <div *ngFor="let item of totalpostreactions">-->
+<!--        {{item.userId.first_name}}-->
+<!--        {{item.reactionType == 0 ? 'Like' : (item.reactionType == 3 ? 'Dislike' : 'Love')}}-->
+<!--      </div>-->
+    </div>
+    <div class="modal-footer">
+      <button > Ok</button>
+    </div>
+  </ng-template>
+
+</div>

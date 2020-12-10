@@ -1,0 +1,51 @@
+.viewcartbox{
+  background-color: black;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.outlinenone{
+  outline: none;
+}
+
+.ad{
+  color: white;
+  cursor: pointer;
+}
+.ad:hover{
+  transform: scale(1.4);
+}
+.ab{
+  color: white;
+  cursor: pointer;
+}
+.ab:hover{
+  transform: scale(1.4);
+}
+.mat_tab_like_section{
+  background-color: #192cf1;
+  border-radius: 50%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 5px
+}
+
+.mat_tab_dislike_section{
+  background-color: black;
+  border-radius: 50%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+
+}
+
+.mat_tab_love_section{
+  background-color: red;
+  border-radius: 50%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+}

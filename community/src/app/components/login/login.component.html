@@ -1,0 +1,42 @@
+<form [formGroup]="formGroup1">
+
+  <div class="maindiv">
+
+    <h1 style="text-align: center;color: white">FIREBASE FORM</h1>
+
+    <input
+      class="input_text"
+      type="email"
+      placeholder="Enter your Email"
+      formControlName="email">
+    <p *ngIf="email.invalid && (email.dirty || email.touched)" style="color: red;text-align: center">email is invalid(xyz@**.com)</p>
+
+
+    <input
+      class="input_text"
+      type="password"
+      placeholder="Enter your Password"
+      formControlName="password">
+    <p *ngIf="password.hasError('required')&& (password.dirty || password.touched)" style="color: RED">Password is Required</p>
+    <p *ngIf="password.hasError('pattern')" style="color: yellow">Password is Invalid
+      Password must contain Atleast 8 characters, one Lowercase and one upper case</p>
+
+    <div class="mybuttons">
+
+      <button style="margin-left:190px" class="btn btn-success hover-action" (click)="submit(formGroup1)"
+              [disabled]="formGroup1.invalid">LOGIN
+      </button>
+     <div class="horizontalLine">
+     </div>
+      <p style="color: white;text-align: center"> Don't Have an account ? <a style="color: white" routerLink="/signup"> Signup </a></p>
+      <br>
+
+<!--      <button style="margin-left:190px" class="btn btn-success hover-action" routerLink="/signup">-->
+<!--        SIGNUP-->
+<!--      </button>-->
+    </div>
+
+  </div>
+
+</form>
+

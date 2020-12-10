@@ -1,0 +1,146 @@
+
+<!--<div *ngFor="let resume of resumeArray">-->
+<!--&lt;!&ndash;  <button (click)="onSelect(resume)">{{resume}}</button>&ndash;&gt;-->
+<!--  <button  mat-button style="background-color: #0000EE;color: white;margin-bottom: 20px" [routerLink]="['../resume/' + resume.name +'/' + resume.id + '/' + 'details']">{{resume.name}}</button>-->
+<!--</div>-->
+
+<!--<app-resume-detail [resume]="selectedResume"></app-resume-detail>-->
+
+<!--<input placeholder="enter id" [(ngModel)]="id">-->
+<!--<br>-->
+<!--<input placeholder="enter Bio_edu" [(ngModel)]="Bio_edu">-->
+<!--<br>-->
+<!--<input placeholder="enter Institute_name" [(ngModel)]="Institute_name">-->
+<!--<br>-->
+<!--<input placeholder="enter Marks_GPA" [(ngModel)]="Marks_GPA">-->
+<!--<br>-->
+<!--<input placeholder="enter Degree" [(ngModel)]="Degree">-->
+
+<!--<button (click)="submit(id,Bio_edu,Degree,Institute_name,Marks_GPA)"> Submit</button>-->
+
+<table class="table table-responsive-sm table-hover table-outline mb-0">
+
+  <thead class="thead-light">
+  <tr>
+    <th>Name</th>
+    <th>Show Resume</th>
+    <th>Education</th>
+    <th>Experience</th>
+    <th>Projects</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor=" let resume of resumeArray">
+    <td>
+      <div>{{resume.name}}</div>
+    </td>
+    <td>
+      <div>
+        <a [routerLink]="['../resume/' + resume.name +'/' + resume.id + '/' + 'details']" style="color: #0000EE;text-decoration: underline;cursor: pointer">View Resume
+        </a>
+      </div>
+    </td>
+    <td>
+      <div>
+        <i (click)="addEducationModal(addEducation,resume.id,resume.name)" class="test-name-edit-icon fa fa-plus" ></i>
+        <i style="margin-left: 5px" class="test-name-edit-icon fa fa-edit" (click)="editEducationForm(editeducationModal,resume.id,resume.name)"></i>
+      </div>
+    </td>
+    <td>
+      <div>
+        <i class="test-name-edit-icon fa fa-plus" [routerLink]="['../resume/' + resume.name +'/' + resume.id + '/' + 'details']"></i>
+        <i style="margin-left: 5px" class="test-name-edit-icon fa fa-edit" [routerLink]="['../resume/' + resume.name +'/' + resume.id + '/' + 'details']"></i>
+      </div>
+    </td>
+    <td>
+      <div>
+        <i class="test-name-edit-icon fa fa-plus" [routerLink]="['../resume/' + resume.name +'/' + resume.id + '/' + 'details']"></i>
+        <i style="margin-left: 5px" class="test-name-edit-icon fa fa-edit" [routerLink]="['../resume/' + resume.name +'/' + resume.id + '/' + 'details']"></i>
+      </div>
+    </td>
+
+  </tr>
+  </tbody>
+</table>
+
+editeducationModal
+<ng-template #addEducation let-modal>
+
+  <div class="modal-header">
+    <h1 class="modal-title" id="modal-basic-title"> Add Education </h1>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="educationForm">
+      <input placeholder="enter Institute_name" formControlName="Institute_name">
+      <br>
+      <input placeholder="enter Degree" formControlName="Degree">
+      <br>
+      <input placeholder="enter Marks_GPA " formControlName="Marks_GPA">
+      <br>
+    </form>
+
+    <!--    <button mat-button style="background-color: green;color: white;margin-top: 20px" (click)="submit(Degree,Institute_name,Marks_GPA)"> Submit</button>-->
+
+  </div>
+
+  <div class="modal-footer">
+    <div style="display: flex;justify-content: center ">
+      <button type="button"
+              class="btn btn-block btn-danger active" (click)="modal.dismiss('Dismissed')"
+              style="width: 100px;margin:0px 8px !important;">
+        Cancel
+      </button>
+      <button type="button"
+              class="btn btn-block btn-success active"
+              (click)="submit(Degree.value,Institute_name.value,Marks_GPA.value)"
+              style="width: 100px;margin:0px !important;">
+        Save
+      </button>
+    </div>
+
+  </div>
+
+</ng-template>
+
+<ng-template #editeducationModal let-modal>
+
+  <div class="modal-header">
+    <h1 class="modal-title" id="modal-basic-title"> Add Education </h1>
+  </div>
+
+  <div class="modal-body" *ngFor="let education of educationFormArray.controls;let i=index">
+     <form [formGroup]="education">
+       <h1>
+         Education {{i+1}}
+       </h1>
+       <input placeholder="enter Institute_name" formControlName="Institute_name">
+       <br>
+       <input placeholder="enter Degree" formControlName="Degree">
+       <br>
+       <input placeholder="enter Marks_GPA " formControlName="Marks_GPA">
+       <br>
+     </form>
+
+<!--    <button mat-button style="background-color: green;color: white;margin-top: 20px" (click)="submit(Degree,Institute_name,Marks_GPA)"> Submit</button>-->
+
+  </div>
+
+  <div class="modal-footer">
+    <div style="display: flex;justify-content: center ">
+      <button type="button"
+              class="btn btn-block btn-danger active" (click)="closeEditEducation()"
+              style="width: 100px;margin:0px 8px !important;">
+        Cancel
+      </button>
+      <button type="button"
+              class="btn btn-block btn-success active"
+              (click)="submit(Degree.value,Institute_name.value,Marks_GPA.value)"
+              style="width: 100px;margin:0px !important;">
+        Save
+      </button>
+    </div>
+
+  </div>
+
+</ng-template>

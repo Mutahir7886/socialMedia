@@ -1,0 +1,73 @@
+.maindiv{
+  display: block;
+  background-color: purple;
+  opacity: 90%;
+  border-radius: 10px;
+  max-width: 470px;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.sideinput{
+  display: flex;
+  padding: 8px;
+}
+
+.inputdiv{
+  width: 60%;
+}
+
+label{
+
+  width: 40%;
+  margin-left: 20px;
+  font-weight: bold;
+
+}
+
+.btn-success{
+  width: 60%;
+  margin-left: 50px;
+  color: yellow;
+  margin-top: 50px;
+}
+
+
+.mybuttons{
+
+}
+
+.input_text {
+  background-color: white;
+  width: 90%;
+  text-align: left;
+  margin-left: 25px;
+  margin-top: 5px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 2px solid black;
+  border-radius: 10px;
+}
+
+h1{
+  justify-content: center;
+}
+
+.btn-success{
+  background-color: deeppink;
+  color: white;
+  opacity: 80%;
+  margin-left: 90px;
+  margin-right: 30px;
+  margin-bottom: 20px;
+}
+
+.asssda{
+  align-items: center;
+  border-bottom: 1px solid #dadde1;
+  display: flex;
+  margin: 20px 16px;
+  text-align: center;
+
+}

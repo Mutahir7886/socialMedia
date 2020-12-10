@@ -1,0 +1,43 @@
+<div class="viewcartbox">
+  <h1 style="color: white;margin-top: 25px;margin-left: 40px">DevStudio</h1>
+  <button style="outline:none;color:white;margin-left: 1150px;margin-top: 20px" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+    <mat-icon>view_headline</mat-icon>
+  </button>1
+  <mat-menu #menu="matMenu">
+    <button  class="outlinenone" mat-menu-item routerLink="/login" *ngIf="checkSignout">
+      <span class="outlinenone" >Login</span>
+    </button>
+    <button class="outlinenone"  mat-menu-item routerLink="/signup" *ngIf="checkSignout">
+      <span class="outlinenone">Signup</span>
+
+    </button>
+    <button class="outlinenone"  mat-menu-item routerLink="/homepage" *ngIf="!checkSignout">
+      <span class="outlinenone" >Homepage</span>
+
+    </button>
+  </mat-menu>
+</div>
+<!--&lt;!&ndash;<ng-template #popTemplate>&ndash;&gt;-->
+<!--&lt;!&ndash;  <div style="display: flex">&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="mat_tab_like_section" >&ndash;&gt;-->
+<!--&lt;!&ndash;      <mat-icon  class=" ad" >thumb_up</mat-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    <div  class="mat_tab_dislike_section" >&ndash;&gt;-->
+<!--&lt;!&ndash;      <mat-icon class=" ab">thumb_down</mat-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="mat_tab_love_section" >&ndash;&gt;-->
+<!--&lt;!&ndash;      <mat-icon class=" ab">favorite</mat-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;  </div>&ndash;&gt;-->
+<!--&lt;!&ndash;</ng-template>&ndash;&gt;-->
+<!--&lt;!&ndash;<button id="popTemplate"&ndash;&gt;-->
+<!--&lt;!&ndash;        type="button"&ndash;&gt;-->
+<!--&lt;!&ndash;        [ngbPopover]="popTemplate"&ndash;&gt;-->
+<!--&lt;!&ndash;        placement="bottom"&ndash;&gt;-->
+<!--&lt;!&ndash;        [openDelay]="300"&ndash;&gt;-->
+<!--&lt;!&ndash;        [closeDelay]="2000"&ndash;&gt;-->
+<!--&lt;!&ndash;        triggers="mouseenter:mouseleave">&ndash;&gt;-->
+<!--&lt;!&ndash;  Show me popover with html&ndash;&gt;-->
+<!--</button>-->
+<router-outlet></router-outlet>
+

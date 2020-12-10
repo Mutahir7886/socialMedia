@@ -1,0 +1,83 @@
+<!--<div *ngIf="resume">-->
+<!--<h1>{{resume.name}}</h1>-->
+<!--</div>-->
+
+<div *ngIf="!resume">
+  No data exist
+</div>
+
+<!--<h3  style="color: blue;margin-top: 20px;margin-bottom: 20px" > Add Education</h3>-->
+<!--<input placeholder="enter id" [(ngModel)]="id">-->
+<!--<br>-->
+<!--<input placeholder="enter Bio_edu" [(ngModel)]="Bio_edu">-->
+<!--<br>-->
+<!--<input placeholder="enter Institute_name" [(ngModel)]="Institute_name">-->
+<!--<br>-->
+<!--<input placeholder="enter Marks_GPA" [(ngModel)]="Marks_GPA">-->
+<!--<br>-->
+<!--<input placeholder="enter Degree" [(ngModel)]="Degree">-->
+<!--<br>-->
+<!--<button mat-button style="background-color: green;color: white;margin-top: 20px" (click)="submit(Degree,Institute_name,Marks_GPA)"> Submit</button>-->
+
+<div *ngIf="resume">
+  <h1 style="font-size:40px">{{resume.name}}</h1>
+  <br>
+  <br>
+  <strong style="color:black;font-size:10px">PHONE NO:</strong> <a> +{{resume.contact}} </a>
+  <br>
+  <strong style="color:black;font-size:10px">EMAIL-ID : </strong> <a> {{resume.email}}  </a>
+  <br>
+  <strong style="color:black;font-size:10px">Address: </strong> <a> {{resume.Address}}  </a>
+  <br>
+
+  <h1 style="font-size:25px">Education </h1>
+
+  <div *ngFor="let education of resume.education">
+
+    <strong> Institute Name :</strong> {{education.Institute_name}}
+    <br>
+    <strong> GPA: </strong> <i> {{education.Marks_GPA}}</i>
+    <br>
+    <strong> Degree: </strong> {{education.Degree}}
+    <br>
+    <br>
+
+  </div>
+
+
+  <h1 style="font-size:25px">Experience </h1>
+
+  <div *ngFor="let experience of resume.experience">
+
+    <strong>Company Name: </strong> {{experience.company_name}}
+    <br>
+    <strong> Job Title: </strong> {{experience.job_title}}
+    <br>
+    <strong>Duration: </strong> {{experience.duration}}
+    <br>
+    <strong> Description: </strong> {{experience.description}}
+    <br>
+    <br>
+  </div>
+
+
+  <h1 style="font-size:25px"> Projects </h1>
+
+  <div *ngFor="let project of resume.project">
+
+    <strong>Name: </strong>{{project.name}}
+    <br>
+    <strong>Description: </strong> {{project.prjct_description}}
+    <br>
+    <br>
+
+
+
+  </div>
+</div>
+
+
+
+
+
+

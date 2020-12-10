@@ -1,0 +1,58 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@keyframes blink {
+  0% {
+    opacity: .2;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: .2;
+  }
+}
+.saving span {
+  animation-name: blink;
+  animation-duration: 1.4s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  border-radius: 50%;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #000;
+  margin: 0 3px;
+}
+.saving span:nth-child(2) {
+  animation-delay: .2s;
+}
+.saving span:nth-child(3) {
+  animation-delay: .4s;
+}
+.hover-action:hover {
+  transform: scale(1.2);
+}
+.hover-action-postreactions:hover {
+  transform: scale(1.1);
+}
+
+.hover-action1:hover {
+  transform: scale(1.2);
+  color: blue !important;
+}
+.horizontalLine{
+  align-items: center;
+  border-bottom: 1px solid #dadde1;
+  display: flex;
+  margin: 20px 16px;
+  text-align: center;
+
+}
+
+.hover-action-commentreact:hover{
+  color: #65bbdb !important;;
+}
+
